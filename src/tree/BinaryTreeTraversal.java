@@ -26,7 +26,13 @@ public class BinaryTreeTraversal {
 		System.out.println(postOrder(root));
 		
 		System.out.println("layer:");
-		System.out.println(layerBFS(root));
+		System.out.println(layersBFS(root));
+		System.out.println(layersBFS2(root));
+		System.out.println(layersDFS(root));
+		
+		System.out.println("zigzag:");
+		System.out.println(zigzag(root));
+		System.out.println(zigzagDFS(root));
 	}
 	
 	
@@ -175,7 +181,7 @@ public class BinaryTreeTraversal {
 	
 	//layer traversal
 	//BFS
-	public static ArrayList<Integer> layerBFS(TreeNode root){
+	public static ArrayList<Integer> layersBFS(TreeNode root){
 		ArrayList<Integer> layer = new ArrayList<Integer>();
 		if(root == null)
 			return layer;
@@ -193,6 +199,131 @@ public class BinaryTreeTraversal {
 		return layer;
 	}
 	
+	public static ArrayList<ArrayList<Integer>> layersBFS2(TreeNode root){
+		ArrayList<ArrayList<Integer>> layers = new ArrayList<ArrayList<Integer>>();
+		if(root == null)
+			return layers;
+		ArrayList<TreeNode> current = new ArrayList<TreeNode>();
+		current.add(root);
+		while(!current.isEmpty()){
+			ArrayList<TreeNode> parent = current;
+			current = new ArrayList<TreeNode>();
+			ArrayList<Integer> cur_layer = new ArrayList<Integer>();
+			for(int i=0; i<parent.size(); i++){
+				//visit the element in the parent
+				TreeNode cur_node = parent.get(i);
+				//add the value into the cur_layer
+				cur_layer.add(cur_node.value);
+				if(cur_node.left != null){
+					current.add(cur_node.left);
+				}
+				if(cur_node.right != null){
+					current.add(cur_node.right);
+				}
+			}
+			//we finish traversal one layer, add the cur_layer into layers
+			layers.add(cur_layer);
+		}
+		return layers;
+	}
+	
+	//DFS
+	public static ArrayList<ArrayList<Integer>> layersDFS(TreeNode root){
+		ArrayList<ArrayList<Integer>> layers = new ArrayList<ArrayList<Integer>>();
+		dfs(root, layers, 0);
+		return layers;
+	}
+	
+	//here, the level of root is 0. root.left's level is 1. etc
+	private static void dfs(TreeNode node, ArrayList<ArrayList<Integer>> layers, 
+			 int level){
+		if(node == null)
+			return ;
+		ArrayList<Integer> cur_layer = null;
+		if(level == layers.size()){
+			//we reach a new layer. we need to new a new ArrayList<Integer> for this layer
+			cur_layer = new ArrayList<Integer>();
+			//add the cur_layer into layers
+			layers.add(cur_layer);
+		}else{
+			// the current layer is layers.get(level)
+			cur_layer = layers.get(level);
+		}
+		//add the node.value into the cur_layer
+		cur_layer.add(node.value);
+		dfs(node.left, layers, level+1);
+		dfs(node.right, layers, level+1);
+	}
+	
+	//zigzag traversal
+	/*
+	 * e.g
+	 * layer traversal: [[5], [2, 7], [1, 3, 6, 8], [4, 9]]
+	 * zigzag 		  : [[5], [7, 2], [1, 3, 6, 8], [9, 4]]
+	 * 
+	 * idea: similar with the layersBFS
+	 * */
+	
+	public static ArrayList<ArrayList<Integer>> zigzag(TreeNode root){
+		ArrayList<ArrayList<Integer>> zigzag = new ArrayList<ArrayList<Integer>>();
+		ArrayList<TreeNode> current = new ArrayList<TreeNode>();
+		current.add(root);
+		boolean odd_layer = false;
+		
+		while(!current.isEmpty()){
+			ArrayList<TreeNode> parents = current;
+			current = new ArrayList<TreeNode>();
+			ArrayList<Integer> one_layer = new ArrayList<Integer>();
+			for(int i=0; i<parents.size(); i++){
+				TreeNode node = parents.get(i);
+				if(odd_layer){
+					one_layer.add(0, node.value);
+				}else{
+					one_layer.add(node.value);
+				}
+				if(node.left != null)
+					current.add(node.left);
+				if(node.right != null)
+					current.add(node.right);
+			}
+			//we have finish the traverse of this layer, add it to zigzag
+			zigzag.add(one_layer);
+			odd_layer = !odd_layer;
+		}
+		return zigzag;
+	}
+	
+	public static ArrayList<ArrayList<Integer>> zigzagDFS(TreeNode root){
+		ArrayList<ArrayList<Integer>> zigzag = new ArrayList<ArrayList<Integer>>();
+		zzdfs(root, zigzag, 0);
+		return zigzag;
+	}
+	
+	//here, the level of root is 0. root.left's level is 1. etc
+		private static void zzdfs(TreeNode node, ArrayList<ArrayList<Integer>> layers, 
+				 int level){
+			if(node == null)
+				return ;
+			ArrayList<Integer> cur_layer = null;
+			if(level == layers.size()){
+				//we reach a new layer. we need to new a new ArrayList<Integer> for this layer
+				cur_layer = new ArrayList<Integer>();
+				//add the cur_layer into layers
+				layers.add(cur_layer);
+			}else{
+				// the current layer is layers.get(level)
+				cur_layer = layers.get(level);
+			}
+			//add the node.value into the cur_layer
+			if(level%2 == 0){
+				cur_layer.add(node.value);
+			}else{
+				cur_layer.add(0, node.value);
+			}
+			
+			zzdfs(node.left, layers, level+1);
+			zzdfs(node.right, layers, level+1);
+		}
 	
 	
 	
