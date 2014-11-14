@@ -85,10 +85,6 @@ public class FlattenBinaryTreeToLinkedList {
 		System.out.println();
 	}
 	
-	
-	
-	
-	
 	public static void flattenRec(TreeNode node){
 		if(node == null)
 			return ;
@@ -108,8 +104,6 @@ public class FlattenBinaryTreeToLinkedList {
 		node.right = node.left;
 		node.left = null;
 	}
-	
-	
 	
 	/*
 	 * This doesn't work, since we need to store the node.right. 
