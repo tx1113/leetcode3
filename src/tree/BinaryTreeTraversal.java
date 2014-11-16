@@ -33,6 +33,10 @@ public class BinaryTreeTraversal {
 		System.out.println("zigzag:");
 		System.out.println(zigzag(root));
 		System.out.println(zigzagDFS(root));
+		
+
+		System.out.println("level one queue");
+		System.out.println(levelBFS(root));
 	}
 	
 	
@@ -325,6 +329,29 @@ public class BinaryTreeTraversal {
 			zzdfs(node.right, layers, level+1);
 		}
 	
+		//this method only use one queue
+		public static ArrayList<ArrayList<Integer>> levelBFS(TreeNode root) {
+			ArrayList<ArrayList<Integer>> levels = new ArrayList<ArrayList<Integer>>();
+			Queue<TreeNode> q = new LinkedList<TreeNode>();
+			q.add(root);
+			
+			while (!q.isEmpty()) {
+				ArrayList<Integer> oneLevel = new ArrayList<Integer>();
+				int size = q.size();
+				for (int i = 0; i < size; i++) {
+					TreeNode node = q.remove();
+					oneLevel.add(node.value);
+					if (node.left != null) {
+						q.add(node.left);
+					}
+					if (node.right != null) {
+						q.add(node.right);
+					}
+				}
+				levels.add(oneLevel);
+			}
+			return levels;
+		}
 	
 	
 	

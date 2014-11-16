@@ -33,6 +33,9 @@ public class BinaryTreeMaximumPathSum {
 		
     }
 	
+	
+	//divide and conquer. This is a great idea so solve this kind of question. 
+	//Related questions: FlatternBinaryTreeToLinkedList
 	public static ResultType getMaxPathSum(TreeNode node) {
 		if (node == null) {
 			return new ResultType(0, Integer.MIN_VALUE);
