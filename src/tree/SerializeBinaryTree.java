@@ -23,7 +23,8 @@ public class SerializeBinaryTree {
 	
 	public static String serializeLevel(TreeNode root) {
         // write your code here
-		//level traversal
+		//level traversal, BFS
+		// use " " to separate, more reasonable.  
 		StringBuilder str = new StringBuilder();
 		Queue<TreeNode> q = new LinkedList<TreeNode>();
 		q.add(root);
@@ -46,6 +47,7 @@ public class SerializeBinaryTree {
 		return str.toString();
     }
 	
+	//Also BFS
 	public static TreeNode deserializeLevel(String str) {
 		if (str == null || str.length() == 0) {
 			return null;
@@ -79,6 +81,39 @@ public class SerializeBinaryTree {
 		return root;
 	}
 	
+	//this method is more robust. 
+	// if there are two or more space between two values, we can ignore the multiple space
+	public static TreeNode deserializeIter(String str) {
+		if (str == null || str.length() == 0) {
+			return null;
+		}
+		StringTokenizer stoken = new StringTokenizer(str, " ");
+		TreeNode root = new TreeNode(Integer.parseInt(stoken.nextToken()));
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		q.add(root);
+		while (!q.isEmpty()) {
+			TreeNode cur = q.remove();
+			String l = stoken.nextToken();
+			if(!l.equals("#")) {
+				TreeNode node = new TreeNode(Integer.parseInt(l));
+				q.add(node);
+				cur.left = node;
+			}
+			String r = stoken.nextToken();
+			if (!r.equals("#")) {
+				TreeNode node = new TreeNode(Integer.parseInt(r));
+				q.add(node);
+				cur.right = node;
+			}
+		}
+		return root;
+	}
+	
+	
+	/*
+	 * This is design for "123####" no space. 
+	 * But this method has limitation. since we cannot recognize that 123 is 1 2 3 or 12 3
+	 */
 	public static TreeNode deserializeLevel2(String str) {
 		if( str == null || str.length() == 0 || (str.length() == 1 && str.charAt(0) == '#')) {
 			return null;
@@ -112,33 +147,6 @@ public class SerializeBinaryTree {
 		return root;
 	}
 	
-	
-	//this method is more robust. 
-	public static TreeNode deserializeIter(String str) {
-		if (str == null || str.length() == 0) {
-			return null;
-		}
-		StringTokenizer stoken = new StringTokenizer(str, " ");
-		TreeNode root = new TreeNode(Integer.parseInt(stoken.nextToken()));
-		Queue<TreeNode> q = new LinkedList<TreeNode>();
-		q.add(root);
-		while (!q.isEmpty()) {
-			TreeNode cur = q.remove();
-			String l = stoken.nextToken();
-			if(!l.equals("#")) {
-				TreeNode node = new TreeNode(Integer.parseInt(l));
-				q.add(node);
-				cur.left = node;
-			}
-			String r = stoken.nextToken();
-			if (!r.equals("#")) {
-				TreeNode node = new TreeNode(Integer.parseInt(r));
-				q.add(node);
-				cur.right = node;
-			}
-		}
-		return root;
-	}
 	public static void test8() {
 		String str = "1 2 3 4 5 # # # # # #";
 		
@@ -147,7 +155,6 @@ public class SerializeBinaryTree {
 		for(int i=0; i<strArr.length; i++) {
 			System.out.println(strArr[i]);
 		}
-		
 		 */
 		
 		/* This is used to test StringTokenizer
