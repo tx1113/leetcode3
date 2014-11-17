@@ -15,8 +15,8 @@ public class SerializeBinaryTree {
 //		test3();
 //		test4();
 //		test5();
-		test6();
-//		test7();
+//		test6();
+		test7();
 	}
 	
 	public static String serializeLevel(TreeNode root) {
@@ -136,12 +136,12 @@ public class SerializeBinaryTree {
    //without the space. 
   
     
-    public static String serializePre2(TreeNode root) {
+	public static String serializePre2(TreeNode root) {
 		StringBuilder str = new StringBuilder();
 		serializeHelper2(root, str);
 		return str.toString();
 	}
-	
+
 	private static void serializeHelper2(TreeNode node, StringBuilder str) {
 		if (node == null) {
 			str.append("#");
@@ -151,73 +151,89 @@ public class SerializeBinaryTree {
 		serializeHelper2(node.left, str);
 		serializeHelper2(node.right, str);
 	}
-	
+
 	public static void test5() {
 		TreeNode root = new TreeNode(1);
 		root.left = null;
 		root.right = new TreeNode(2);
-		String str = serializePre2(root);	
+		String str = serializePre2(root);
 		System.out.println(str);
 	}
-	
-	
-	//here, we use a index class to store the index of String. 
-	//avoid using a global variable, since the Object could be passed by reference
+
+	// here, we use a index class to store the index of String.
+	// avoid using a global variable, since the Object could be passed by
+	// reference
 	private static class Index {
 		private int index;
-		public Index(int i){
+
+		public Index(int i) {
 			this.index = i;
 		}
+
 		public int getIndex() {
 			return index;
 		}
+
 		public void increase() {
-			index ++;
+			index++;
 		}
 	}
-	
+
 	public static TreeNode deserialize2(String data) {
-	        // write your code here
-	    	if (data == null || data.length() == 0) {
-				return null;
-			}
-	    	Index strIndex = new Index(0);
-	    	return deserializeHelper2(data, strIndex);
-	    }
-	    
-	    public static TreeNode deserializeHelper2(String st, Index strIndex) {
-	    	if(strIndex.index >= st.length() ) {
-	    		return null;
-	    	}
-	    	if( st.charAt(strIndex.getIndex()) == '#') {
-	    		strIndex.increase();
-	    		System.out.println(strIndex.getIndex());
-	    		return null;
-	    	}
-	    	char val = st.charAt(strIndex.getIndex());
-	    	strIndex.increase();
-	    	int valInt = (int)(val - '0');
-	    	TreeNode node = new TreeNode(valInt);
-	    	node.left = deserializeHelper2(st, strIndex);
-	    	node.right = deserializeHelper2(st, strIndex);
-	    	return node;
-	    }
-	    
-	    public static void test6() {
-	    	String str = "1#2##";
-	    	TreeNode root = deserialize2(str);
-	    	System.out.println(BinaryTreeTraversal.preOrderIter1(root));
-	    	System.out.println(BinaryTreeTraversal.inOrder(root));
-	    	System.out.println(BinaryTreeTraversal.postOrder(root));
-	    }
-	    
-	    public static void test7() {
-	    	//used to test the convert from char to int
-	    	char ch = '9';
-	    	int chi = (int)(ch - '0');
-	    	System.out.println("chi = " + chi);
-	    }
-	    
-	    
-	    
+		// write your code here
+		if (data == null || data.length() == 0) {
+			return null;
+		}
+		Index strIndex = new Index(0);
+		return deserializeHelper2(data, strIndex);
+	}
+
+	public static TreeNode deserializeHelper2(String st, Index strIndex) {
+		if (strIndex.index >= st.length()) {
+			return null;
+		}
+		if (st.charAt(strIndex.getIndex()) == '#') {
+			strIndex.increase();
+			System.out.println(strIndex.getIndex());
+			return null;
+		}
+		char val = st.charAt(strIndex.getIndex());
+		strIndex.increase();
+		int valInt = (int) (val - '0');
+		TreeNode node = new TreeNode(valInt);
+		node.left = deserializeHelper2(st, strIndex);
+		node.right = deserializeHelper2(st, strIndex);
+		return node;
+	}
+
+	public static void test6() {
+		String str = "1#2##";
+		TreeNode root = deserialize2(str);
+		System.out.println(BinaryTreeTraversal.preOrderIter1(root));
+		System.out.println(BinaryTreeTraversal.inOrder(root));
+		System.out.println(BinaryTreeTraversal.postOrder(root));
+	}
+
+	public static void test7() {
+		// used to test the convert from char to int
+		char ch = '9';
+		int chi = (int) (ch - '0');
+		System.out.println("chi = " + chi);
+		
+		Character c = new Character('1');
+		Integer i = Character.getNumericValue(c);
+		System.out.println("i = " + i);
+		
+	}
+	
+	//optimize: 
+	/*
+	 *   1
+	 *    \
+	 *     2
+	 *     
+	 * after serialize, 1#2##
+	 * need n+1 #. we want to optimize a little. deleting the 
+	 */
+
 }
