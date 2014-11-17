@@ -357,9 +357,4 @@ public class BinaryTreeTraversal {
 			}
 			return levels;
 		}
-	
-	
-	
-	
-
 }
