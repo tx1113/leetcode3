@@ -164,6 +164,9 @@ public class BinaryTreeTraversal {
 	
 	public static ArrayList<Integer> postOrder(TreeNode root){
 		ArrayList<Integer> postOrder = new ArrayList<Integer>();
+		if (root == null) {
+			return postOrder;
+		}
 		Stack<TreeNode> st = new Stack<TreeNode>();
 		Stack<Integer> output = new Stack<Integer>();
 		st.push(root);
@@ -182,6 +185,8 @@ public class BinaryTreeTraversal {
 		}
 		return postOrder;
 	}
+	
+	
 	
 	//layer traversal
 	//BFS

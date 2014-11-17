@@ -16,7 +16,9 @@ public class SerializeBinaryTree {
 //		test4();
 //		test5();
 //		test6();
-		test7();
+//		test7();
+//		test0();
+		test8();
 	}
 	
 	public static String serializeLevel(TreeNode root) {
@@ -29,14 +31,157 @@ public class SerializeBinaryTree {
 			int size = q.size();
 			for (int i = 0; i < size; i++) {
 				TreeNode node = q.remove();
-				str.append(node.value);
-				if (node.left == null) {
+				if (node != null) {
+					//if node != null, we do the enqueue
+					str.append(node.value+" ");
+					q.add(node.left);
+					q.add(node.right);
 					
+				}else {
+					//we just append "#"
+					str.append("# ");
 				}
 			}
 		}
-		return null;
+		return str.toString();
     }
+	
+	public static TreeNode deserializeLevel(String str) {
+		if (str == null || str.length() == 0) {
+			return null;
+		}
+		String[] strArr = str.split(" ");
+		int i = 0;
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		TreeNode root = new TreeNode(Integer.parseInt(strArr[0]));
+		i++;
+		q.add(root);
+		while( !q.isEmpty()) {
+			TreeNode cur = q.remove();
+			if (strArr[i].equals("#")) {
+				i++;
+			}else {
+				TreeNode node = new TreeNode(Integer.parseInt(strArr[i]));
+				i++;
+				cur.left = node;
+				q.add(node);
+			}
+			
+			if (strArr[i].equals("#")) {
+				i++;
+			}else {
+				TreeNode node = new TreeNode(Integer.parseInt(strArr[i]));
+				i++;
+				cur.right = node;
+				q.add(node);
+			}
+		}
+		return root;
+	}
+	
+	public static TreeNode deserializeLevel2(String str) {
+		if( str == null || str.length() == 0 || (str.length() == 1 && str.charAt(0) == '#')) {
+			return null;
+		}
+		int i = 0;
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		TreeNode root = new  TreeNode((int)(str.charAt(0)- '0'));
+		i++;
+		q.add(root);
+		while (!q.isEmpty()) {
+			TreeNode cur = q.remove();
+			if (str.charAt(i) != '#') {
+				TreeNode node = new TreeNode((int)(str.charAt(i)) - '0');
+				cur.left = node;
+				q.add(node);
+				i++;
+			}else {
+				//str.charAT(i) == "#' 
+				i++;
+			}
+			if (str.charAt(i) != '#') {
+				TreeNode node = new TreeNode((int)(str.charAt(i)) - '0');
+				cur.right = node;
+				q.add(node);
+				i++;
+			}else {
+				//str.charAT(i) == "#' 
+				i++;
+			}
+		}
+		return root;
+	}
+	
+	
+	//this method is more robust. 
+	public static TreeNode deserializeIter(String str) {
+		if (str == null || str.length() == 0) {
+			return null;
+		}
+		StringTokenizer stoken = new StringTokenizer(str, " ");
+		TreeNode root = new TreeNode(Integer.parseInt(stoken.nextToken()));
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		q.add(root);
+		while (!q.isEmpty()) {
+			TreeNode cur = q.remove();
+			String l = stoken.nextToken();
+			if(!l.equals("#")) {
+				TreeNode node = new TreeNode(Integer.parseInt(l));
+				q.add(node);
+				cur.left = node;
+			}
+			String r = stoken.nextToken();
+			if (!r.equals("#")) {
+				TreeNode node = new TreeNode(Integer.parseInt(r));
+				q.add(node);
+				cur.right = node;
+			}
+		}
+		return root;
+	}
+	public static void test8() {
+		String str = "1 2 3 4 5 # # # # # #";
+		
+		/* test String.split
+	    String[] strArr = str.split(" ");
+		for(int i=0; i<strArr.length; i++) {
+			System.out.println(strArr[i]);
+		}
+		
+		 */
+		
+		/* This is used to test StringTokenizer
+		StringTokenizer stoken = new StringTokenizer(str, " ");
+		while (stoken.hasMoreTokens()) {
+			System.out.println(stoken.nextToken());
+		}
+		*/
+		
+		TreeNode root = deserializeLevel(str);
+		System.out.println(BinaryTreeTraversal.preOrderIter1(root));
+		System.out.println(BinaryTreeTraversal.inOrder(root));
+		System.out.println(BinaryTreeTraversal.postOrder(root));
+		System.out.println("----------------------");
+		TreeNode root2 = deserializeIter(str);
+		System.out.println(BinaryTreeTraversal.preOrderIter1(root2));
+		System.out.println(BinaryTreeTraversal.inOrder(root2));
+		System.out.println(BinaryTreeTraversal.postOrder(root2));
+		
+	}
+	
+
+	
+	public static void test0() {
+		TreeNode root = new TreeNode(1);
+		TreeNode node1 = new TreeNode(2);
+		TreeNode node2 = new TreeNode(3);
+		TreeNode node3 = new TreeNode(4);
+		root.left = node1;
+		root.right = node2;
+		node2.left = node3;
+		String ser = serializeLevel(root);
+		System.out.println("ser = " + ser);
+	}
 	
 	// preOrder Traversal
 	// we passed in StringBuilder into the serialize_helper. 
@@ -235,5 +380,5 @@ public class SerializeBinaryTree {
 	 * after serialize, 1#2##
 	 * need n+1 #. we want to optimize a little. deleting the 
 	 */
-
+	
 }
