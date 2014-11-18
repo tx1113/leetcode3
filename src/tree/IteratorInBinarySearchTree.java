@@ -42,7 +42,7 @@ public class IteratorInBinarySearchTree {
 	public  TreeNode next() {
 		// write your code here
 		while (current != null) {
-			st.push(current);
+			st.push(current); //push into stack
 			current = current.left;
 		}
 		
@@ -52,5 +52,4 @@ public class IteratorInBinarySearchTree {
 		
 		return node;
 	}
-
 }

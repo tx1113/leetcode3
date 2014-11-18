@@ -87,6 +87,7 @@ public class BinaryTreeTraversal {
 		if(root == null)
 			return preOrder;
 		Stack<TreeNode> st = new Stack<TreeNode>();
+		//the stack store a node's parent. Use to go back.
 		TreeNode node = root;
 		while(node != null || !st.isEmpty()){
 			if(node != null){
@@ -140,8 +141,9 @@ public class BinaryTreeTraversal {
 		return inOrder;
 	}
 	
-	public static ArrayList<Integer> morrisInOrder(TreeNode root){
+	public static ArrayList<Integer> inOrderMorris(TreeNode root){
 		return null;
+		
 	}
 	
 	
