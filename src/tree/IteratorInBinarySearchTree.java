@@ -5,12 +5,8 @@ import java.util.Stack;
 import basicDS.*;
 
 public class IteratorInBinarySearchTree {
-
-	
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
 	}
 	
 	/*

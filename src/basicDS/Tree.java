@@ -3,7 +3,7 @@ import tree.*;
 
 import java.util.ArrayList;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 
 public class Tree {
 	
@@ -36,9 +36,6 @@ public class Tree {
 		ArrayList<Integer> preOrder2 = BinaryTreeTraversal.preOrderRec(root);
 		System.out.println("preOrder");
 		System.out.println(preOrder1);
-		System.out.println(preOrder2);
-		
-		
-		
+		System.out.println(preOrder2);	
 	}
 }
