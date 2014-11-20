@@ -30,7 +30,10 @@ public class RemoveDuplicatesFromSortedList2 {
 
 			while (cur.next != null && cur.val == cur.next.val) {
 				cur = cur.next;
-			}// if there exists duplicates
+			}
+				//!!! here, we need to pay attention that cur.next != null
+				// 	  since we need to make sure that cur.next.val won't throw null pointer error
+				// if there exists duplicates
 				// after execution of the loop, cur points the last element of a
 				// series duplicates
 
