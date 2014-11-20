@@ -1,6 +1,5 @@
 package linkedlist;
 
-import org.omg.CORBA.SystemException;
 
 import basicDS.*;
 
