@@ -42,7 +42,7 @@ public class PartitionList {
 	
 
 	/*
-	 * Basic idea for this is to throw the listnode whose value is larger than x to the tail
+	 * Basic idea for this is to throw the list node whose value is larger than x to the tail
 	 */
 	public static ListNode partition_wrong(ListNode head, int x) {
 		ListNode dummy = new ListNode(-1);

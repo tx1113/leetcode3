@@ -8,7 +8,8 @@ public class FlattenBinaryTreeToLinkedList {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test();
+//		test();
+		testTreeToDoubleList();
 	}
 	
 	/*
@@ -132,7 +133,59 @@ public class FlattenBinaryTreeToLinkedList {
 		}
 	}
 	
+	//convert binary tree into double linked list in inOrder traversal
+	public static TreeNode convertBTToDoubleLinkedList(TreeNode root) {
+		TreeNode lastNode = null;
+		TreeNode head = treeToList(root, lastNode);
+		return head;
+	}
 	
 	
-
+	/*
+	 * There is bug in this method !!!
+	 */
+	private static TreeNode treeToList(TreeNode root, TreeNode lastNode) {
+		TreeNode head = null;
+		if (root == null) {
+			lastNode = null;
+			return null;
+		}
+		
+		if (root.left == null) {
+			head = root;
+		}else {
+			head = treeToList(root.left, lastNode);
+			root.left = lastNode;
+			lastNode.right = root;
+		}
+		
+		if (root.right == null) {
+			lastNode = root;
+		} else {
+			root.right = treeToList(root.right, lastNode);
+			root.right.left = root;
+		}
+		return head;
+	}
+	
+	public static void testTreeToDoubleList() {
+		TreeNode root = BuildBinaryTree.buildTree();
+		System.out.println(BinaryTreeTraversal.preOrderRec(root));
+		System.out.println(BinaryTreeTraversal.inOrderRec(root));
+		System.out.println(BinaryTreeTraversal.postOrder(root));
+		
+		TreeNode head = convertBTToDoubleLinkedList(root);
+		printDoubleList(head);
+		
+		
+	}
+	
+	public static void printDoubleList(TreeNode head) {
+		TreeNode cur = head;
+		while (cur != null) {
+			System.out.print(cur.value + " ");
+			cur = cur.right;
+		}
+		System.out.println();
+	}
 }

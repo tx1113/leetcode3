@@ -37,7 +37,6 @@ public class SerializeBinaryTree {
 					str.append(node.value+" ");
 					q.add(node.left);
 					q.add(node.right);
-					
 				}else {
 					//we just append "#"
 					str.append("# ");
