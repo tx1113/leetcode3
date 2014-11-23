@@ -9,7 +9,7 @@ public class FlattenBinaryTreeToLinkedList {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
-		testTreeToDoubleList();
+//		testTreeToDoubleList();
 	}
 	
 	/*
@@ -58,7 +58,6 @@ public class FlattenBinaryTreeToLinkedList {
 				st.push(p.right);
 			if(p.left != null)
 				st.push(p.left);
-			
 			p.left = null;
 			if(!st.isEmpty()){
 				p.right = st.peek();
@@ -176,8 +175,6 @@ public class FlattenBinaryTreeToLinkedList {
 		
 		TreeNode head = convertBTToDoubleLinkedList(root);
 		printDoubleList(head);
-		
-		
 	}
 	
 	public static void printDoubleList(TreeNode head) {
