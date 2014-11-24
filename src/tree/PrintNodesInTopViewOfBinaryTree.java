@@ -12,6 +12,7 @@ public class PrintNodesInTopViewOfBinaryTree {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		test();
+		test2();
 	}
 	
 	/*
@@ -98,8 +99,49 @@ public class PrintNodesInTopViewOfBinaryTree {
 		System.out.println(BinaryTreeTraversal.postOrder(root));
 		
 		printTopView(root);
+		System.out.println();
 	}
 	
+	public static void printTopViewNoSet(TreeNode root) {
+		if (root == null) {
+			return ;
+		}
+		
+		Queue<Item> q = new LinkedList<Item>();
+		Item rootItem = new Item(root, 0);
+		int maxHd = Integer.MIN_VALUE, minHd = Integer.MAX_VALUE;
+		q.add(rootItem);
+		while (!q.isEmpty()) {
+			Item curItem = q.remove();
+			int curHd = curItem.hd;
+			TreeNode curNode = curItem.node;
+			
+			if (curHd < minHd) {
+				minHd = curHd;
+				System.out.print(curNode.value + " ");
+			}else if (curHd > maxHd) {   
+				//for the root, if without the "else" it will execute the curHd < midHd 
+				// and curHd > maxHd, printing the root.val twice
+				maxHd = curHd;
+				System.out.print(curNode.value + " ");
+			}
+			if (curNode.left != null) {
+				q.add(new Item(curNode.left, curHd - 1));
+			}
+			if (curNode.right != null) {
+				q.add(new Item(curNode.right, curHd + 1));
+			}	
+		}
+	}
+	
+	public static void test2() {
+		TreeNode root = BuildBinaryTree.buildTree();
+		System.out.println(BinaryTreeTraversal.preOrderRec(root));
+		System.out.println(BinaryTreeTraversal.inOrder(root));
+		System.out.println(BinaryTreeTraversal.postOrder(root));
+		
+		printTopViewNoSet(root);
+	}
 	
 	
 	
